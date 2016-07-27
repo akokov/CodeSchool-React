@@ -25,13 +25,13 @@ export default class CommentBox extends React.Component {
 
 	render() {
 		const comments = this._getComments();
-		return(
+		return (
 			<div className="row comments-container">
 				<div className="cell">
 					<h2>Join The Discussion</h2>
 					<div className="comment-box">
-						<CommentForm addComment={this._addComment} />
-						<CommentAvatarList avatars={this._getAvatars()} />
+						<CommentForm addComment={this._addComment}/>
+						<CommentAvatarList avatars={this._getAvatars()}/>
 
 						{this._getPopularMessage(comments.length)}
 						<h3 className="comment-count">{this._getCommentsTitle(comments.length)}</h3>
@@ -41,7 +41,6 @@ export default class CommentBox extends React.Component {
 					</div>
 				</div>
 			</div>
-
 		);
 	}
 
@@ -63,13 +62,13 @@ export default class CommentBox extends React.Component {
 			return <Comment
 				{...comment}
 				/*id={comment.id}
-				author={comment.author}
-				body={comment.body}
-				avatarUrl={comment.avatarUrl}*/
+				 author={comment.author}
+				 body={comment.body}
+				 avatarUrl={comment.avatarUrl}*/
 				/*onDelete={(commentID) => this._deleteComment(commentID)}*/
 				/*onDelete={this._deleteComment.bind(this)}*/
 				onDelete={this._deleteComment}
-				key={comment.id} />
+				key={comment.id}/>
 		});
 	}
 
@@ -101,9 +100,10 @@ export default class CommentBox extends React.Component {
 	_fetchComments() {
 		jQuery.ajax({
 			method: 'GET',
-			url: 'comments.json',
+			url: this.props.apiUrl,
+
 			success: (comments) => {
-				this.setState({ comments })
+				this.setState({comments})
 			}
 		});
 	}
@@ -113,6 +113,11 @@ export default class CommentBox extends React.Component {
 			comment => comment.id !== commentID
 		);
 
-		this.setState({ comments });
+		this.setState({comments});
 	}
 }
+
+CommentBox.propTypes = {
+	apiUrl: React.PropTypes.string.isRequired
+};
+
